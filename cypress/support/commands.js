@@ -16,6 +16,17 @@
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
 //
+
+
+Cypress.Commands.add('checkOptionAndValidateOthers', (optionToCheck, expectedTexts) => {
+    cy.contains(optionToCheck).find('input').check().should('be.checked')
+
+    expectedTexts.filter(option => option !== optionToCheck).forEach(unchecked => {
+      cy.contains(unchecked).find('input').should('not.be.checked')
+    })
+  })
+
+
 //
 // -- This is a dual command --
 // Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
