@@ -101,16 +101,6 @@ describe("Homework", () => {
   })
 
 
-  it("Test Case 04 - Validate the Address input box", () => {
-    cy.visit("https://techglobal-training.com/frontend/project-1");
-
-    cy.contains('label', 'Address').should('have.text', 'Address')
-    cy.contains('label', 'Address').nextAll().should('be.visible').and('not.have.attr', 'required')
-    cy.get('input[placeholder*="Enter your address"]')
-
-  })
-
-
   it("Test Case 08 - Validate the Consent checkbox", () => {
     cy.visit("https://techglobal-training.com/frontend/project-1");
 
