@@ -22,30 +22,39 @@ describe("Homework", () => {
     cy.get('input[placeholder*="Enter your full name"]')
 
   })
-
-  it("Test Case 03 - Validate the Gender radio button", () => {
-    cy.visit("https://techglobal-training.com/frontend/project-1");
-
-    const data = ['Male', 'Female', 'Prefer not to disclose']
-    cy.get('.control > .label').should('have.text', 'Gender *').and('not.have.attr', 'required')
-    cy.get('.control > .radio').each(($el, index) => {
-      cy.wrap($el).should('have.text', data[index]).and('not.be.selected').click()
-      cy.get(':nth-child(2) > .mr-1').click()
-      cy.get(':nth-child(3) > .mr-1').should('not.be.selected')
-      cy.get(':nth-child(4) > .mr-1').should('not.be.selected')
-      cy.get(':nth-child(3) > .mr-1').click()
-      cy.get(':nth-child(2) > .mr-1').should('not.be.selected')
-      cy.get(':nth-child(4) > .mr-1').should('not.be.selected')
-
-    })
-    /*
-          cy.checkOptionAndValidateOthers('Male', expectedTexts)
-          cy.checkOptionAndValidateOthers('Female', expectedTexts)
+          it('Test Case 03 - Validate the Gender Radio Button', () => {
+  
+            cy.visit('https://techglobal-training.com/frontend/project-1');
+        
+            /**
+             * Navigate to https://techglobal-training.com/frontend/project-1
+            Validate the label is "Gender *"
+            Validate that the Gender is required // BUG 
+            Validate the options are "Female", "Male" and "Prefer not to disclose"
+            Validate the options are clickable and not selected
+            Click on the "Male" option and validate it is selected while the others are not selected
+            Click on the "Female" option and validate it is selected while the others are not selected
+             */
+        
+        
+            cy.get('.control > .label').should('have.text', 'Gender *') // .and('have.attr', 'required')
+        
+            const expectedTexts = ['Male', 'Female', 'Prefer not to disclose']
+        
+            cy.get('.control > [class*="radio"]').each(($el, index) => {
+              cy.wrap($el).should('have.text', expectedTexts[index])
+            })
+        
+            cy.get('.mr-1').should('be.visible').and('be.enabled')
+      
+            cy.checkOptionAndValidateOthers('Male', expectedTexts)
+            cy.checkOptionAndValidateOthers('Female', expectedTexts)
+      
     
-      */
+          })
 
 
-  })
+  
 
   const testCases =
     [
@@ -76,8 +85,8 @@ describe("Homework", () => {
     ]
 
 
-  testCases.forEach((test) => {
-    it(`Test ${test.testName}`, () => {
+  testCases.forEach((test, index) => {
+    it(`Test Case 0${index + 4} ${test.testName}`, () => {
       cy.visit("https://techglobal-training.com/frontend/project-1");
 
       cy.get('.label').contains(test.label).should('have.text', test.label)
@@ -95,7 +104,6 @@ describe("Homework", () => {
   it("Test Case 04 - Validate the Address input box", () => {
     cy.visit("https://techglobal-training.com/frontend/project-1");
 
-    // const data1 = ['Address', 'Email *', 'Phone', 'Message']
     cy.contains('label', 'Address').should('have.text', 'Address')
     cy.contains('label', 'Address').nextAll().should('be.visible').and('not.have.attr', 'required')
     cy.get('input[placeholder*="Enter your address"]')
@@ -142,4 +150,5 @@ describe("Homework", () => {
     cy.get('.mt-5').should('have.text', 'Thanks for submitting!')
 
   })
+
 })
